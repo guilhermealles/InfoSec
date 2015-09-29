@@ -10,7 +10,7 @@ int f(int block, int subkey);
 void feistelEncrypt();
 void feistelDecrypt();
 
-char input_text[] = {97, 109, 111, 114, -69, -29, 32, 12, '\0'};
+char input_text[] = {-14, -52, 96, 33, 45, -94, 80, -96, -29, -64, 96, 33, 33, -96, 88, -83, '\0'};
 //char* input_text;
 int input_text_size;
 char *passphrase;
@@ -30,7 +30,7 @@ int main (int argc, char **argv) {
 
     feistelDecrypt();
     for (int i = 0; i < input_text_size; i++) {
-        printf("%d ", (char)output_text[i]);
+        printf("%c", (char)output_text[i]);
     }
     printf("\n");
 
@@ -112,7 +112,7 @@ void feistelEncrypt() {
 
         L[0] = *L_ptr;
         R[0] = *R_ptr;
-        for (int current_round = 1; current_round < 16; current_round++){ //16
+        for (int current_round = 1; current_round < 16; current_round++){
             L[current_round] = R[current_round-1];
             R[current_round] = L[current_round-1] ^ f(R[current_round-1], getSubkey(current_round));
         }
@@ -127,7 +127,7 @@ void feistelDecrypt(){
     int R[16];
     int L[16];
 
-    for (int i = 0; i < input_text_size; i++){
+    for (int i = 0; i < input_text_size; i+=8){
         int* L_ptr = (int*)&input_text[i];
         int* R_ptr = (int*)&input_text[i+4];
 
